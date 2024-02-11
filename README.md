@@ -8,7 +8,7 @@ Welcome to the GitHub Users App! This application allows you to explore GitHub u
 ### Step 1: Clone the Repository
 Clone the repository to your local machine using the following command:
 
-`git clone https://github.com/yourusername/github-users.git`
+`git clone https://github.com/mohdriyaz0807/github-users.git`
 
 ### Step 2: Navigate to the Project Folder
 Navigate to the project folder using the terminal or command prompt:
