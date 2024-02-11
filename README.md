@@ -1,26 +1,26 @@
 Welcome to the GitHub Users App! This application allows you to explore GitHub users and view their details conveniently.
 
-### Features
+## Features
 
 - Access the main page at [localhost:3000](http://localhost:3000)
 - View individual user details by clicking on their profile
 
-## Step 1: Clone the Repository
+### Step 1: Clone the Repository
 Clone the repository to your local machine using the following command:
 
 `git clone https://github.com/yourusername/github-users.git`
 
-## Step 2: Navigate to the Project Folder
+### Step 2: Navigate to the Project Folder
 Navigate to the project folder using the terminal or command prompt:
 
 `cd github-users`
 
-## Step 3: Install Dependencies
+### Step 3: Install Dependencies
 Install the necessary dependencies by running the following command:
 
 `npm install`
 
-## Step 4: Run the Application
+### Step 4: Run the Application
 Start the application by running the following command:
 
 `npm start`
