@@ -10,27 +10,28 @@ import {
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import UserSearchBar from "./UserSearchBar";
-import NoresultsPng from "../assets/no-results.png";
+import styled from "@emotion/styled";
+import NoResultsFound from "./NoResultsFound";
+
+const StyledH1 = styled.h1`
+  font-family: Impact;
+  font-size: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 20px;
+  cursor: pointer;
+`;
+
+const TitleContainerStyled = styled.div`
+  text-align: center;
+  box-shadow: #ccc 2px 0px 5px;
+  padding: 20px 0 20px;
+`;
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const titleStyle = {
-    fontFamily: "Impact",
-    fontSize: 60,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: "0 0 20px",
-    cursor: "pointer",
-  };
-
-  const titleContainer = {
-    textAlign: "center",
-    boxShadow: "#ccc 2px 0px 5px",
-    padding: "20px 0 20px",
-  };
 
   const listStyle = {
     display: "flex",
@@ -61,17 +62,17 @@ const UserList = () => {
 
   return (
     <div style={{ height: "calc(100vh - 20px)", overflowY: "hidden" }}>
-      <div style={titleContainer}>
-        <h1 style={titleStyle} onClick={() => (window.location.href = "")}>
+      <TitleContainerStyled>
+        <StyledH1 onClick={() => (window.location.href = "")}>
           <GitHubIcon sx={{ width: 80, height: 80 }} />
           &nbsp;Github
-        </h1>
+        </StyledH1>
         <UserSearchBar
           setLoading={setLoading}
           users={users}
           onSearch={setUsers}
         />
-      </div>
+      </TitleContainerStyled>
       <List sx={listStyle}>
         {loading ? (
           Array.from({ length: 30 }).map((_, index) => (
@@ -135,28 +136,7 @@ const UserList = () => {
             </ListItem>
           ))
         ) : (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              margin: 20,
-            }}
-          >
-            <img
-              src={NoresultsPng}
-              alt="no-results"
-              style={{
-                width: 300,
-                height: 300,
-              }}
-            />
-            <br />
-            <Typography variant="h5" fontFamily="monospace">
-              No results found
-            </Typography>
-          </div>
+          <NoResultsFound />
         )}
       </List>
     </div>

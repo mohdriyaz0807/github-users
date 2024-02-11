@@ -9,7 +9,6 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import NoresultsPng from "../assets/no-results.png";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import BusinessIcon from "@mui/icons-material/Business";
 import XIcon from "@mui/icons-material/X";
@@ -18,6 +17,34 @@ import PlaceIcon from "@mui/icons-material/Place";
 import EmailIcon from "@mui/icons-material/Email";
 import LinkIcon from "@mui/icons-material/Link";
 import CircleIcon from "@mui/icons-material/Circle";
+import styled from "@emotion/styled";
+import NoResultsFound from "./NoResultsFound";
+import { ArrowBack } from "@mui/icons-material";
+
+const StyledH1 = styled.h1`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 20px;
+  margin-top: 0;
+  background-color: #ededed;
+`;
+
+const StyledTypography = styled(Typography)`
+  display: flex;
+  align-items: start;
+  margin: 10px 0;
+`;
+
+const StyledBackButton = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  float: left;
+  padding: 20px;
+  background-color: #ededed;
+  cursor: pointer;
+`;
 
 const UserDetails = () => {
   const { username } = useParams();
@@ -26,15 +53,6 @@ const UserDetails = () => {
   const [reposLoading, setReposLoading] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-
-  const titleStyle = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "10px 20px",
-    marginTop: 0,
-    backgroundColor: "#ededed",
-  };
 
   async function getRepos(name) {
     setReposLoading(true);
@@ -110,7 +128,11 @@ const UserDetails = () => {
 
   return (
     <>
-      <h1 style={titleStyle}>
+      <StyledBackButton onClick={() => (window.location.href = "/")}>
+        <ArrowBack />
+        &nbsp;<b>Back</b>
+      </StyledBackButton>
+      <StyledH1>
         <GitHubIcon sx={{ width: 32, height: 32 }} />
         &nbsp;
         {user?.login ? (
@@ -127,31 +149,10 @@ const UserDetails = () => {
             {user.login}
           </Button>
         ) : null}
-      </h1>
+      </StyledH1>
       {!loading ? (
         error ? (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexDirection: "column",
-              margin: 20,
-            }}
-          >
-            <img
-              src={NoresultsPng}
-              alt="no-results"
-              style={{
-                width: 300,
-                height: 300,
-              }}
-            />
-            <br />
-            <Typography variant="h5" fontFamily="monospace">
-              {error}
-            </Typography>
-          </div>
+          <NoResultsFound />
         ) : (
           <Grid container spacing={3}>
             <Grid
@@ -180,14 +181,7 @@ const UserDetails = () => {
                   <Typography variant="body1">{user.bio}</Typography>
                 </div>
                 {user.company ? (
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      display: "flex",
-                      alignItems: "start",
-                      margin: "10px 0",
-                    }}
-                  >
+                  <StyledTypography variant="body1">
                     <BusinessIcon />
                     &nbsp;&nbsp;
                     <div>
@@ -209,16 +203,9 @@ const UserDetails = () => {
                           })
                         : user.company}
                     </div>
-                  </Typography>
+                  </StyledTypography>
                 ) : null}
-                <Typography
-                  variant="body1"
-                  sx={{
-                    display: "flex",
-                    alignItems: "start",
-                    margin: "10px 0",
-                  }}
-                >
+                <StyledTypography variant="body1">
                   <PeopleAltIcon />
                   &nbsp;&nbsp;
                   <a
@@ -238,29 +225,15 @@ const UserDetails = () => {
                   >
                     <b>{user.following || 0}</b>&nbsp;Following
                   </a>
-                </Typography>
+                </StyledTypography>
                 {user.location ? (
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      display: "flex",
-                      alignItems: "start",
-                      margin: "10px 0",
-                    }}
-                  >
+                  <StyledTypography variant="body1">
                     <PlaceIcon />
                     &nbsp;&nbsp;{user.location}
-                  </Typography>
+                  </StyledTypography>
                 ) : null}
                 {user.email ? (
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      display: "flex",
-                      alignItems: "start",
-                      margin: "10px 0",
-                    }}
-                  >
+                  <StyledTypography variant="body1">
                     <EmailIcon />
                     &nbsp;&nbsp;
                     <a
@@ -271,17 +244,10 @@ const UserDetails = () => {
                     >
                       {user.email}
                     </a>
-                  </Typography>
+                  </StyledTypography>
                 ) : null}
                 {user.blog ? (
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      display: "flex",
-                      alignItems: "start",
-                      margin: "10px 0",
-                    }}
-                  >
+                  <StyledTypography variant="body1">
                     <LinkIcon />
                     &nbsp;&nbsp;
                     <a
@@ -292,17 +258,10 @@ const UserDetails = () => {
                     >
                       {user.blog}
                     </a>
-                  </Typography>
+                  </StyledTypography>
                 ) : null}
                 {user.twitter ? (
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      display: "flex",
-                      alignItems: "start",
-                      margin: "10px 0",
-                    }}
-                  >
+                  <StyledTypography variant="body1">
                     <XIcon />
                     &nbsp;&nbsp;
                     <a
@@ -313,7 +272,7 @@ const UserDetails = () => {
                     >
                       {user.twitter}
                     </a>
-                  </Typography>
+                  </StyledTypography>
                 ) : null}
               </div>
             </Grid>
@@ -343,9 +302,9 @@ const UserDetails = () => {
               </Typography>
               <hr />
               {!reposLoading ? (
-                repos.length ? (
-                  <div className="repo-container">
-                    {repos.map((repo, index) => (
+                <div className="repo-container">
+                  {repos.length ? (
+                    repos.map((repo, index) => (
                       <div key={index} className="repo-item">
                         <Typography>
                           <a
@@ -384,13 +343,23 @@ const UserDetails = () => {
                           </Typography>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <Typography>No repositories</Typography>
-                )
+                    ))
+                  ) : (
+                    <Typography>No repositories</Typography>
+                  )}
+                </div>
               ) : (
-                <Skeleton variant="text" width="100%" height="90%" />
+                <div className="repo-container">
+                  {Array.from({ length: 30 }).map((_, index) => (
+                    <div key={index} className="repo-item">
+                      <Skeleton
+                        style={{ borderRadius: "10px" }}
+                        variant="rectangular"
+                        height={120}
+                      />
+                    </div>
+                  ))}
+                </div>
               )}
             </Grid>
           </Grid>
