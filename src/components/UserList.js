@@ -71,6 +71,7 @@ const UserList = () => {
           setLoading={setLoading}
           users={users}
           onSearch={setUsers}
+          getList={getList}
         />
       </TitleContainerStyled>
       <List sx={listStyle}>

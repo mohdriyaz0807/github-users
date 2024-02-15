@@ -4,20 +4,26 @@ import {
   IconButton,
   InputAdornment,
   Typography,
+  Button,
 } from "@mui/material";
-import { Search as SearchIcon, Clear as ClearIcon } from "@mui/icons-material";
+import { Clear as ClearIcon } from "@mui/icons-material";
 
-const UserSearchBar = ({ onSearch, users, setLoading }) => {
+const UserSearchBar = ({ onSearch, users, setLoading, getList }) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [lastSearch, setLastSearch] = useState({ show: false, text: "" });
+  const [lastSearch, setLastSearch] = useState({ show: false, text: "", location: "" });
+  const [searchTermLocation, setSearchTermLocation] = useState("")
 
   const handleSearch = async () => {
-    if (!searchTerm.trim()) return;
+    if (!searchTerm.trim() && !searchTermLocation.trim()) {
+      getList()
+      setLastSearch({ show: false, text: "", location: "" })
+      return;
+    }
     try {
-      setLastSearch({ show: true, text: searchTerm });
+      setLastSearch({ show: true, text: searchTerm, location: searchTermLocation });
       setLoading(true);
       const response = await fetch(
-        `https://api.github.com/search/users?q=${searchTerm}`
+        `https://api.github.com/search/users?q=${searchTerm}+location:${searchTermLocation}`
       );
       const data = await response.json();
       onSearch(data.items);
@@ -57,9 +63,6 @@ const UserSearchBar = ({ onSearch, users, setLoading }) => {
                   <ClearIcon />
                 </IconButton>
               ) : null}
-              <IconButton onClick={handleSearch}>
-                <SearchIcon />
-              </IconButton>
             </InputAdornment>
           ),
           sx: {
@@ -71,10 +74,40 @@ const UserSearchBar = ({ onSearch, users, setLoading }) => {
           },
         }}
       />
+      <div>
+      <TextField
+        placeholder="Search for location..."
+        variant="outlined"
+        autoComplete="off"
+        value={searchTermLocation}
+        onChange={(e) => setSearchTermLocation(e.target.value)}
+        InputProps={{
+          className: "search-input",
+          endAdornment: (
+            <InputAdornment position="end">
+              {searchTermLocation ? (
+                <IconButton onClick={() => setSearchTermLocation("")}>
+                  <ClearIcon />
+                </IconButton>
+              ) : null}
+            </InputAdornment>
+          ),
+          sx: {
+            borderRadius: "50px",
+            height: "40px",
+            width: "35vw",
+            padding: "0 5px",
+            marginBottom: "10px",
+          },
+        }}
+      />
+      </div>
+      <Button sx={{margin: "10px 0"}} variant="contained" onClick={handleSearch}>Search</Button>
       {lastSearch.show ? (
         <Typography color="#999">
           showing {<b>{users.length}</b>} results for matching{" "}
-          {<b>{lastSearch.text}</b>}
+          {<b>{lastSearch.text}</b>}{" "}
+          {lastSearch.location ? `and ${lastSearch.location}` : ""}
         </Typography>
       ) : (
         <div style={{ height: "25px" }} />
